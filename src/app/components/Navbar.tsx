@@ -21,7 +21,7 @@ import {
 
 const Navbar = () => {
   return (
-    <div className="h-24 flex items-center justify-between">
+    <div className="h-18 flex items-center justify-between">
       {/* Left */}
       <div className="md:hidden lg:block font-bold text-xl text-teal-400 w-[20%]">
         <Link href="/">Echo</Link>

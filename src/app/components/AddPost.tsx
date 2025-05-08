@@ -10,7 +10,7 @@ import React from "react";
 
 const AddPost = () => {
   return (
-    <div className="p-4 bg-neutral-800 rounded-lg flex gap-4 justify-between text-sm flex-wrap">
+    <div className="p-4 bg-neutral-800 shadow-xl rounded-lg flex gap-4 justify-between text-sm flex-wrap">
       {/* AVATAR */}
       <Image
         src="https://images.pexels.com/photos/31834931/pexels-photo-31834931/free-photo-of-relaxed-woman-by-the-pool-in-sao-paulo-brazil.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load"
