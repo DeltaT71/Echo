@@ -3,7 +3,7 @@ import React from "react";
 
 const Stories = () => {
   return (
-    <div className="p-4 rounded-lg shadow-xl bg-neutral-700 overflow-scroll text-xs scrollbar-hide">
+    <div className="p-4 rounded-lg shadow-xl bg-neutral-800 overflow-scroll text-xs scrollbar-hide">
       <div className="flex gap-8 w-max">
         {/* Story */}
         <div className="flex flex-col items-center gap-2 cursor-pointer">
