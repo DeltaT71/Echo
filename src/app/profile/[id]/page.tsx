@@ -1,5 +1,6 @@
 import Feed from "@/app/components/Feed";
 import LeftMenu from "@/app/components/LeftMenu";
+import ProfileInfo from "@/app/components/ProfileInfo";
 import RightMenu from "@/app/components/RightMenu";
 import React from "react";
 
@@ -13,6 +14,7 @@ const Profile = () => {
       {/* Center/Main Content */}
       <div className="w-full lg:w-[70%] xl:w-[50%]">
         <div className="flex flex-col gap-6">
+          <ProfileInfo></ProfileInfo>
           <Feed></Feed>
         </div>
       </div>
