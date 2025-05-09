@@ -36,7 +36,7 @@ const Comments = () => {
         <div className="flex justify-between gap-4 mt-4">
           {/* AVATAR */}
           <Image
-            src="https://images.pexels.com/photos/31834931/pexels-photo-31834931/free-photo-of-relaxed-woman-by-the-pool-in-sao-paulo-brazil.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load"
+            src="https://images.pexels.com/photos/27037687/pexels-photo-27037687/free-photo-of-macaw-parrot-in-forest.png?auto=compress&cs=tinysrgb&w=600&lazy=load"
             alt=""
             width={40}
             height={40}
