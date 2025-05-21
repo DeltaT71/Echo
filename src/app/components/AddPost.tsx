@@ -1,3 +1,5 @@
+import prisma from "@/lib/client";
+import { auth } from "@clerk/nextjs/server";
 import {
   CalendarIcon,
   ChartBarIcon,
@@ -8,7 +10,29 @@ import {
 import Image from "next/image";
 import React from "react";
 
-const AddPost = () => {
+const AddPost = async () => {
+  "use server";
+  const session = await auth();
+  const userId = session?.userId;
+
+  const testAction = async (formData: FormData) => {
+    "use server";
+    const desc = formData.get("desc") as string;
+
+    if (!userId) return;
+    try {
+      const res = await prisma.post.create({
+        data: {
+          userId: userId,
+          desc: desc,
+        },
+      });
+      console.log(res);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <div className="p-4 bg-neutral-800 shadow-xl rounded-lg flex gap-4 justify-between text-sm flex-wrap">
       {/* AVATAR */}
@@ -22,13 +46,15 @@ const AddPost = () => {
       {/* POST */}
       <div className="flex-1">
         {/* TEXT INPUT */}
-        <div className="flex gap-4">
+        <form action={testAction} className="flex gap-4">
           <textarea
             placeholder="Whats on your mind?"
             className="flex-1 bg-neutral-700 rounded-lg p-2 min-h-15 resize-none border-none outline-1 outline-neutral-600 focus:outline-teal-300 transition-all"
+            name="desc"
           ></textarea>
           <FaceSmileIcon className="size-5 cursor-pointer self-end text-teal-300"></FaceSmileIcon>
-        </div>
+          <button>Send</button>
+        </form>
         {/* POST OPTIONS */}
         <div className="flex items-baseline-center gap-4 mt-4 text-gray-300 text-sm flex-wrap">
           <div className="flex gap-1 text-xs items-end">
