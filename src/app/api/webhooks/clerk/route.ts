@@ -14,7 +14,7 @@ export async function POST(req: NextRequest) {
     console.log(
       `Received webhook with ID ${id} and event type of ${eventType}`
     );
-    console.log("Webhook payload:", evt.data);
+    //console.log("Webhook payload:", evt.data);
 
     //   Creating a user
     if (eventType === "user.created") {
@@ -26,11 +26,23 @@ export async function POST(req: NextRequest) {
           return new Response("Missing username", { status: 400 });
         }
 
+        const existingUser = await prisma.user.findUnique({
+          where: {
+            username,
+          },
+        });
+
+        if (existingUser) {
+          console.error("Username already exists in DB.");
+          return new Response("Username already exists", { status: 400 });
+        }
+
         await prisma.user.create({
           data: {
             id: evt.data.id,
             username: username,
             avatar: evt.data.image_url,
+            cover: "/No_cover.jpg",
           },
         });
         return new Response("User created", { status: 200 });
@@ -55,8 +67,6 @@ export async function POST(req: NextRequest) {
             id: evt.data.id,
           },
           data: {
-            id: evt.data.id,
-            username: username,
             avatar: evt.data.image_url,
           },
         });
