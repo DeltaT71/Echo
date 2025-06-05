@@ -1,7 +1,7 @@
-import Feed from "@/app/components/Feed";
-import LeftMenu from "@/app/components/LeftMenu";
-import ProfileInfo from "@/app/components/ProfileInfo";
-import RightMenu from "@/app/components/RightMenu";
+import Feed from "@/app/components/feed/Feed";
+import LeftMenu from "@/app/components/leftMenu/LeftMenu";
+import ProfileInfo from "@/app/components/rightMenu/ProfileInfo";
+import RightMenu from "@/app/components/rightMenu/RightMenu";
 import prisma from "@/lib/client";
 import { auth } from "@clerk/nextjs/server";
 import { notFound } from "next/navigation";
@@ -60,7 +60,7 @@ const Profile = async ({ params }: { params: { username: string } }) => {
       </div>
       {/* Right Side */}
       <div className="hidden lg:flex flex-col gap-6 w-[30%]">
-        <RightMenu userId="1"></RightMenu>
+        <RightMenu user={user}></RightMenu>
       </div>
     </div>
   );

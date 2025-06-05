@@ -1,6 +1,6 @@
+import { UserWithCount } from "@/app/types/UserWithCount";
 import Image from "next/image";
 import React from "react";
-import { UserWithCount } from "../types/UserWithCount";
 
 const ProfileInfo = ({ user }: { user: UserWithCount }) => {
   return (

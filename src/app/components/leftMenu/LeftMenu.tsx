@@ -13,7 +13,7 @@ import {
   PhotoIcon,
   VideoCameraIcon,
 } from "@heroicons/react/24/outline";
-import Ad from "./Ad";
+import Ad from "../Ad";
 
 const LeftMenu = ({ type }: { type: "home" | "profile" }) => {
   return (
