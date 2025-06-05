@@ -26,32 +26,32 @@ const UserInformationCard = async ({ user }: { user: User }) => {
   let isFollowing = false;
   let isFollowingSent = false;
 
-  //The one currently logged in
+  //Get the user currently logged in
   const { userId: currentUserId } = await auth();
 
   if (currentUserId) {
     const [blockRes, followRes, followingRes] = await Promise.all([
       prisma.block.findFirst({
         where: {
-          //The one currently being looked at
+          //The user currently being looked at
           blockedId: user.id,
-          //The one currently logged in
+          //The user currently logged in
           blockerId: currentUserId,
         },
       }),
       prisma.follower.findFirst({
         where: {
-          //The one currently being looked at
+          //The user currently being looked at
           followingId: user.id,
-          //The one currently logged in
+          //The user currently logged in
           followerId: currentUserId,
         },
       }),
       prisma.followerRequest.findFirst({
         where: {
-          //The one currently being looked at
+          //The user currently being looked at
           receiverId: user.id,
-          //The one currently logged in
+          //The user currently logged in
           senderId: currentUserId,
         },
       }),

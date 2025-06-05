@@ -1,0 +1,62 @@
+"use server";
+
+import { auth } from "@clerk/nextjs/server";
+import prisma from "./client";
+
+export const switchFollow = async (userId: string) => {
+  // userId is the target user
+  // Get the ID of the currently authenticated user
+  const { userId: currentUserId } = await auth();
+
+  if (!currentUserId) {
+    throw new Error("User is not authenticated!");
+  }
+
+  try {
+    // Check if the current user is already following the target user
+    const existingFollow = await prisma.follower.findFirst({
+      where: {
+        followerId: currentUserId,
+        followingId: userId,
+      },
+    });
+
+    if (existingFollow) {
+      // If already following, unfollow (delete the follower entry)
+      await prisma.follower.delete({
+        where: {
+          id: existingFollow.id,
+        },
+      });
+    } else {
+      // If not following, check if a follow request was already sent
+      const existingFollowRequest = await prisma.followerRequest.findFirst({
+        where: {
+          senderId: currentUserId,
+          receiverId: userId,
+        },
+      });
+
+      if (existingFollowRequest) {
+        // If a follow request already exists, cancel it (delete the request)
+        await prisma.followerRequest.delete({
+          where: {
+            id: existingFollowRequest.id,
+          },
+        });
+      } else {
+        // Otherwise, create a new follow request
+        await prisma.followerRequest.create({
+          data: {
+            senderId: currentUserId,
+            receiverId: userId,
+          },
+        });
+      }
+    }
+  } catch (error) {
+    // Handle any unexpected errors
+    console.error(error);
+    throw new Error("Something went wrong while switching follow status.");
+  }
+};
