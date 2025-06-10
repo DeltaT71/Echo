@@ -43,7 +43,7 @@ const Profile = async ({ params }: { params: { username: string } }) => {
     }
   }
 
-  if (isBlocked) return notFound();
+  //if (isBlocked) return notFound();
 
   return (
     <div className="flex gap-6 h-200 pt-6">

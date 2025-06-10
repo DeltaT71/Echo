@@ -60,3 +60,44 @@ export const switchFollow = async (userId: string) => {
     throw new Error("Something went wrong while switching follow status.");
   }
 };
+
+export const switchBlock = async (userId: string) => {
+  // userId is the target user
+  // Get the ID of the currently authenticated user
+  const { userId: currentUserId } = await auth();
+
+  // Check if user is authenticated.
+  if (!currentUserId) {
+    throw new Error("User is not authenticated!");
+  }
+
+  try {
+    // Check if the current user is already blocking the target user
+    const existingBlock = await prisma.block.findFirst({
+      where: {
+        blockerId: currentUserId,
+        blockedId: userId,
+      },
+    });
+    // If the block exists remove the block.
+    if (existingBlock) {
+      await prisma.block.delete({
+        where: {
+          id: existingBlock.id,
+        },
+      });
+    }
+    // If there is no block create it.
+    else {
+      await prisma.block.create({
+        data: {
+          blockerId: currentUserId,
+          blockedId: userId,
+        },
+      });
+    }
+  } catch (error) {
+    console.log(error);
+    throw new Error("Something went wrong while switching follow status.");
+  }
+};

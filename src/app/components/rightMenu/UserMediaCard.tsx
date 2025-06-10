@@ -2,8 +2,22 @@ import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 import { User } from "../../../../generated/prisma/client";
+import prisma from "@/lib/client";
 
-const UserMediaCard = ({ user }: { user: User }) => {
+const UserMediaCard = async ({ user }: { user: User }) => {
+  const postsWithMedia = await prisma.post.findMany({
+    where: {
+      userId: user.id,
+      img: {
+        not: null,
+      },
+    },
+    take: 8,
+    orderBy: {
+      createdAt: "desc",
+    },
+  });
+  //DONT FORGET TO FIX YOUR COMMIT FOR THE BLOCK USER AND THE USER MEDIA
   return (
     <div className="flex flex-col gap-6 p-4 bg-neutral-800 text-neutral-200 rounded-lg shadow-lg">
       {/* TOP */}
@@ -14,71 +28,19 @@ const UserMediaCard = ({ user }: { user: User }) => {
         </Link>
       </div>
       {/* BOTTOM */}
-      <div className="flex gap-4 justify-between flex-wrap">
-        <div className="relative w-1/5 h-24">
-          <Image
-            src="https://images.pexels.com/photos/30693592/pexels-photo-30693592/free-photo-of-dramatic-aerial-view-of-secluded-tropical-beach.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load"
-            alt=""
-            fill
-            className="object-cover rounded-md"
-          ></Image>
-        </div>
-        <div className="relative w-1/5 h-24">
-          <Image
-            src="https://images.pexels.com/photos/30693592/pexels-photo-30693592/free-photo-of-dramatic-aerial-view-of-secluded-tropical-beach.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load"
-            alt=""
-            fill
-            className="object-cover rounded-md"
-          ></Image>
-        </div>
-        <div className="relative w-1/5 h-24">
-          <Image
-            src="https://images.pexels.com/photos/30693592/pexels-photo-30693592/free-photo-of-dramatic-aerial-view-of-secluded-tropical-beach.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load"
-            alt=""
-            fill
-            className="object-cover rounded-md"
-          ></Image>
-        </div>
-        <div className="relative w-1/5 h-24">
-          <Image
-            src="https://images.pexels.com/photos/30693592/pexels-photo-30693592/free-photo-of-dramatic-aerial-view-of-secluded-tropical-beach.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load"
-            alt=""
-            fill
-            className="object-cover rounded-md"
-          ></Image>
-        </div>
-        <div className="relative w-1/5 h-24">
-          <Image
-            src="https://images.pexels.com/photos/30693592/pexels-photo-30693592/free-photo-of-dramatic-aerial-view-of-secluded-tropical-beach.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load"
-            alt=""
-            fill
-            className="object-cover rounded-md"
-          ></Image>
-        </div>
-        <div className="relative w-1/5 h-24">
-          <Image
-            src="https://images.pexels.com/photos/30693592/pexels-photo-30693592/free-photo-of-dramatic-aerial-view-of-secluded-tropical-beach.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load"
-            alt=""
-            fill
-            className="object-cover rounded-md"
-          ></Image>
-        </div>
-        <div className="relative w-1/5 h-24">
-          <Image
-            src="https://images.pexels.com/photos/30693592/pexels-photo-30693592/free-photo-of-dramatic-aerial-view-of-secluded-tropical-beach.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load"
-            alt=""
-            fill
-            className="object-cover rounded-md"
-          ></Image>
-        </div>
-        <div className="relative w-1/5 h-24">
-          <Image
-            src="https://images.pexels.com/photos/30693592/pexels-photo-30693592/free-photo-of-dramatic-aerial-view-of-secluded-tropical-beach.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load"
-            alt=""
-            fill
-            className="object-cover rounded-md"
-          ></Image>
-        </div>
+      <div className="flex gap-4 flex-wrap">
+        {postsWithMedia.length
+          ? postsWithMedia.map((post) => (
+              <div key={post.id} className="relative w-1/5 h-24">
+                <Image
+                  src={post.img!}
+                  alt=""
+                  fill
+                  className="object-cover rounded-md"
+                ></Image>
+              </div>
+            ))
+          : "No Media"}
       </div>
     </div>
   );
