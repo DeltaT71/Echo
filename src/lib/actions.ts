@@ -2,6 +2,7 @@
 
 import { auth } from "@clerk/nextjs/server";
 import prisma from "./client";
+import z from "zod";
 
 export const switchFollow = async (userId: string) => {
   // userId is the target user
@@ -167,6 +168,59 @@ export const declineFollowRequest = async (userId: string) => {
         },
       });
     }
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const updateProfile = async (formData: FormData) => {
+  //Get the fields from the form
+  const fields = Object.fromEntries(formData);
+
+  //Make sure we are only taking the fields with data in them.
+  const filteredFields = Object.fromEntries(
+    Object.entries(fields).filter(([_, value]) => value !== "")
+  );
+
+  //Define the validation schema and constraints for the profile update.
+  const Profile = z.object({
+    cover: z.string().optional(),
+    name: z.string().max(60).optional(),
+    surname: z.string().max(60).optional(),
+    description: z.string().max(60).optional(),
+    city: z.string().max(60).optional(),
+    school: z.string().max(60).optional(),
+    work: z.string().max(60).optional(),
+    website: z.string().max(60).optional(),
+  });
+
+  //Apply the validation schema to the fields
+  const validatedFields = Profile.safeParse(filteredFields);
+
+  //Check for any errors during validation and log them
+  if (!validatedFields.success) {
+    console.log(validatedFields.error.flatten().fieldErrors);
+    throw new Error("Invalid Data!"); // Prevent continuing with invalid data
+  }
+
+  try {
+    //Get the currently logged in user ID
+    const { userId: currentUserId } = await auth();
+
+    //Check if currentUser exists
+    if (!currentUserId) {
+      throw new Error("User is not Authenticated!");
+    }
+    //update the user data
+    await prisma.user.update({
+      where: {
+        id: currentUserId,
+      },
+      data: {
+        //validatedFields can be spread like this for because the form fields match the schema of the model.
+        ...validatedFields.data,
+      },
+    });
   } catch (error) {
     console.log(error);
   }

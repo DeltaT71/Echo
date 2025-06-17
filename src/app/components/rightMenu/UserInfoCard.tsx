@@ -70,9 +70,7 @@ const UserInformationCard = async ({ user }: { user: User }) => {
         <div className="flex items-center justify-between font-medium mb-2">
           <span className="text-neutral-300">User Media</span>
           {currentUserId == user.id ? (
-            <Link href="/" className="hover:underline text-teal-300  text-sm">
-              Edit Profile
-            </Link>
+            <UpdateUser user={user}></UpdateUser>
           ) : (
             <Link href="/" className="hover:underline text-teal-300  text-sm">
               See all
