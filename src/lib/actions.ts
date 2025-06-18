@@ -173,7 +173,12 @@ export const declineFollowRequest = async (userId: string) => {
   }
 };
 
-export const updateProfile = async (formData: FormData) => {
+export const updateProfile = async (
+  prevState: { success: boolean; error: boolean },
+  payload: { formData: FormData; cover: string }
+) => {
+  //Desctucture the payload
+  const { formData, cover } = payload;
   //Get the fields from the form
   const fields = Object.fromEntries(formData);
 
@@ -195,12 +200,12 @@ export const updateProfile = async (formData: FormData) => {
   });
 
   //Apply the validation schema to the fields
-  const validatedFields = Profile.safeParse(filteredFields);
+  const validatedFields = Profile.safeParse({ cover, ...filteredFields });
 
   //Check for any errors during validation and log them
   if (!validatedFields.success) {
     console.log(validatedFields.error.flatten().fieldErrors);
-    throw new Error("Invalid Data!"); // Prevent continuing with invalid data
+    return { success: false, error: true }; //Return the form state Error
   }
 
   try {
@@ -209,7 +214,7 @@ export const updateProfile = async (formData: FormData) => {
 
     //Check if currentUser exists
     if (!currentUserId) {
-      throw new Error("User is not Authenticated!");
+      return { success: false, error: true }; //Return the form state Error
     }
     //update the user data
     await prisma.user.update({
@@ -221,7 +226,9 @@ export const updateProfile = async (formData: FormData) => {
         ...validatedFields.data,
       },
     });
+    return { success: true, error: false }; //Return the form state Success
   } catch (error) {
     console.log(error);
+    return { success: false, error: true }; //Return the form state Error
   }
 };

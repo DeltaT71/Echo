@@ -15,7 +15,7 @@ const ProfileCard = async () => {
     include: {
       _count: {
         select: {
-          followers: true,
+          followings: true,
         },
       },
     },
@@ -73,7 +73,7 @@ const ProfileCard = async () => {
               className="w-3 h-3 rounded-full object-cover ring-neutral-800 z-20"
             ></Image>
           </div>
-          <span className="text-sm">{user._count.followers} Followers</span>
+          <span className="text-sm">{user._count.followings} Followers</span>
         </div>
       </div>
 
