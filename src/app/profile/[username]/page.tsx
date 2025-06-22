@@ -43,7 +43,7 @@ const Profile = async ({ params }: { params: { username: string } }) => {
     }
   }
 
-  //if (isBlocked) return notFound();
+  if (isBlocked) return notFound();
 
   return (
     <div className="flex gap-6 h-200 pt-6">
@@ -55,7 +55,7 @@ const Profile = async ({ params }: { params: { username: string } }) => {
       <div className="w-full lg:w-[70%] xl:w-[50%]">
         <div className="flex flex-col gap-6">
           <ProfileInfo user={user}></ProfileInfo>
-          <Feed></Feed>
+          <Feed username={username}></Feed>
         </div>
       </div>
       {/* Right Side */}

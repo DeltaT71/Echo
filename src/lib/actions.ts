@@ -232,3 +232,71 @@ export const updateProfile = async (
     return { success: false, error: true }; //Return the form state Error
   }
 };
+
+export const switchLike = async (postId: number) => {
+  const { userId: currentUserId } = await auth();
+
+  if (!currentUserId) throw new Error("User is not Authenticated!");
+
+  try {
+    const existingLike = await prisma.like.findFirst({
+      where: {
+        userId: currentUserId,
+        postId: postId,
+      },
+    });
+
+    if (existingLike) {
+      await prisma.like.delete({
+        where: {
+          id: existingLike.id,
+        },
+      });
+    } else {
+      await prisma.like.create({
+        data: {
+          postId: postId,
+          userId: currentUserId,
+        },
+      });
+    }
+  } catch (error) {
+    console.log(error);
+    throw new Error("Something went wrong!");
+  }
+};
+
+export const createComment = async (desc: string, postId: number) => {
+  const { userId: currentUser } = await auth();
+
+  if (!currentUser) {
+    throw new Error("User is not Authenticated!");
+  }
+
+  try {
+    const post = await prisma.post.findFirst({
+      where: {
+        id: postId,
+      },
+    });
+
+    if (post) {
+      const createdComment = await prisma.comment.create({
+        data: {
+          postId: post.id,
+          desc: desc,
+          userId: currentUser,
+        },
+        include: {
+          user: true,
+        },
+      });
+      return createdComment;
+    } else {
+      throw new Error("Something went wrong!");
+    }
+  } catch (error) {
+    console.log(error);
+    throw new Error("Something went wrong!");
+  }
+};

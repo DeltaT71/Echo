@@ -11,6 +11,7 @@ import UpdateButton from "./UpdateButton";
 const UpdateUser = ({ user }: { user: User }) => {
   //useState variable for closing and opening the form
   const [isOpen, setIsOpen] = useState(false);
+  /* eslint-disable @typescript-eslint/no-explicit-any */
   const [cover, setCover] = useState<any>(false);
 
   const router = useRouter();
