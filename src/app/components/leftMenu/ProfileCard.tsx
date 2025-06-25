@@ -1,6 +1,7 @@
 import prisma from "@/lib/client";
 import { auth } from "@clerk/nextjs/server";
 import Image from "next/image";
+import Link from "next/link";
 import React from "react";
 
 const ProfileCard = async () => {
@@ -77,9 +78,12 @@ const ProfileCard = async () => {
         </div>
       </div>
 
-      <button className="bg-teal-700 py-1 px-4 rounded-lg hover:bg-teal-300 hover:text-black transition-all w-fit mx-auto">
+      <Link
+        href={`/profile/${user.username}`}
+        className="bg-teal-700 py-1 px-4 rounded-lg hover:bg-teal-300 hover:text-black transition-all w-fit mx-auto"
+      >
         My Profile
-      </button>
+      </Link>
     </div>
   );
 };
