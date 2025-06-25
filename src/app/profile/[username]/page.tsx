@@ -7,7 +7,11 @@ import { auth } from "@clerk/nextjs/server";
 import { notFound } from "next/navigation";
 import React from "react";
 
-const Profile = async ({ params }: { params: { username: string } }) => {
+const Profile = async ({
+  params,
+}: {
+  params: Promise<{ username: string }>;
+}) => {
   const { username } = await params;
 
   const user = await prisma.user.findFirst({

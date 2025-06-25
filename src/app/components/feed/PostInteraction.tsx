@@ -39,7 +39,7 @@ const PostInteraction = ({
   //Optimistic hook for the likes so that we have instant feedback for the users.
   const [optimisticLike, switchOptimisticLike] = useOptimistic(
     likeState,
-    (state, value) => {
+    (state) => {
       return {
         //if is liked is true and the button is clicked likes -1 if its false + 1
         likeCount: state.isLiked ? state.likeCount - 1 : state.likeCount + 1,

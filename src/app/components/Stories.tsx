@@ -1,6 +1,5 @@
 import prisma from "@/lib/client";
 import { auth } from "@clerk/nextjs/server";
-import Image from "next/image";
 import React from "react";
 import StoryList from "./StoryList";
 

@@ -10,6 +10,7 @@ import React, { useOptimistic, useState } from "react";
 import { Comment, User } from "../../../../generated/prisma";
 import { useUser } from "@clerk/nextjs";
 import { createComment } from "@/lib/actions";
+import Link from "next/link";
 
 type CommentWithUserList = Comment & {
   user: User;
@@ -99,13 +100,15 @@ const CommentList = ({
             {/* COMMENT */}
             <div className="flex justify-between gap-4 mt-4">
               {/* AVATAR */}
-              <Image
-                src={comment.user.avatar || "/No_avatar.png"}
-                alt=""
-                width={40}
-                height={40}
-                className="w-10 h-10 rounded-full"
-              ></Image>
+              <Link href={`/profile/${comment.user.username}`}>
+                <Image
+                  src={comment.user.avatar || "/No_avatar.png"}
+                  alt=""
+                  width={40}
+                  height={40}
+                  className="w-10 h-10 rounded-full"
+                ></Image>
+              </Link>
               {/* DESC */}
               <div className="flex flex-1 flex-col gap-4">
                 <span className="font-medium">
