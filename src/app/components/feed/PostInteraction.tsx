@@ -91,7 +91,8 @@ const PostInteraction = ({
           <div className="flex items-center gap-3 bg-neutral-700 p-2 rounded-xl text-neutral-200">
             <ChatBubbleBottomCenterTextIcon className="size-5 cursor-pointer"></ChatBubbleBottomCenterTextIcon>
             <span className="flex gap-1">
-              244<span className="hidden md:inline">Comments</span>
+              {commentNumber}
+              <span className="hidden md:inline">Comments</span>
             </span>
           </div>
         </div>

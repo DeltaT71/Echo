@@ -117,11 +117,11 @@ const CommentList = ({
                 <div className="flex items-center gap-4 text-sm">
                   <div className="flex items-center gap-3 bg-neutral-700 p-2 rounded-xl text-neutral-200">
                     <HandThumbUpIcon className="size-4 cursor-pointer"></HandThumbUpIcon>
-                    <span className="flex gap-1">231</span>
+                    <span className="flex gap-1">0</span>
                   </div>
                   <div className="flex items-center gap-3 bg-neutral-700 p-2 rounded-xl text-neutral-200">
                     <ArrowUturnLeftIcon className="size-4 cursor-pointer"></ArrowUturnLeftIcon>
-                    <span className="flex gap-1">1231</span>
+                    <span className="flex gap-1">0</span>
                   </div>
                 </div>
               </div>

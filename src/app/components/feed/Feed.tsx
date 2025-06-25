@@ -8,6 +8,7 @@ const Feed = async ({ username }: { username?: string }) => {
   const { userId: currentUserId } = await auth();
 
   //empty posts array to store the posts later
+  /* eslint-disable @typescript-eslint/no-explicit-any */
   let posts: any[] = [];
 
   //Check if username exists
@@ -52,6 +53,7 @@ const Feed = async ({ username }: { username?: string }) => {
 
     //We map them so that we can get an object of userIds
     const followingIds = following.map((f) => f.followingId);
+    followingIds.push(currentUserId);
 
     //We use the new followingIds array to map thru all the posts with these ids and order them in desc.
     posts = await prisma.post.findMany({
