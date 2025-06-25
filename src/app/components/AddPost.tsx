@@ -15,7 +15,6 @@ import { addPost } from "@/lib/actions";
 
 const AddPost = () => {
   const { user, isLoaded } = useUser();
-  const [desc, setDesc] = useState("");
   /* eslint-disable @typescript-eslint/no-explicit-any */
   const [img, setImg] = useState<any>();
 
@@ -37,14 +36,13 @@ const AddPost = () => {
       <div className="flex-1">
         {/* TEXT INPUT */}
         <form
-          action={(formData) => addPost(formData, img.secure_url || "")}
+          action={(formData) => addPost(formData, img?.secure_url || "")}
           className="flex gap-4"
         >
           <textarea
             placeholder="Whats on your mind?"
             className="flex-1 bg-neutral-700 rounded-lg p-2 min-h-15 resize-none border-none outline-1 outline-neutral-600 focus:outline-teal-300 transition-all"
             name="desc"
-            onChange={(e) => setDesc(e.target.value)}
           ></textarea>
           <div className="flex flex-col gap-3">
             <FaceSmileIcon className="size-5 cursor-pointer text-teal-300"></FaceSmileIcon>
@@ -55,7 +53,7 @@ const AddPost = () => {
         <div className="flex items-baseline-center gap-4 mt-4 text-gray-300 text-sm flex-wrap">
           <CldUploadWidget
             uploadPreset="Social_App"
-            onSuccess={(result, { widget }) => {
+            onSuccess={(result) => {
               setImg(result.info);
             }}
           >
