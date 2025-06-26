@@ -44,29 +44,29 @@ const Feed = async ({ username }: { username?: string }) => {
     });
   }
 
-  //If username does not exist but there is a current user means we are in the feed.
-  if (!username && currentUserId) {
-    if (DEMO_MODE) {
-      //We just fetch all the posts to display them for the demo.
-      posts = await prisma.post.findMany({
-        include: {
-          user: true,
-          likes: {
-            select: {
-              userId: true,
-            },
-          },
-          _count: {
-            select: {
-              comments: true,
-            },
+  if (DEMO_MODE) {
+    //We just fetch all the posts to display them for the demo.
+    posts = await prisma.post.findMany({
+      include: {
+        user: true,
+        likes: {
+          select: {
+            userId: true,
           },
         },
-        orderBy: {
-          createdAt: "desc",
+        _count: {
+          select: {
+            comments: true,
+          },
         },
-      });
-    } else {
+      },
+      orderBy: {
+        createdAt: "desc",
+      },
+    });
+  } else {
+    //If username does not exist but there is a current user means we are in the feed.
+    if (!username && currentUserId) {
       //This whole segment is how the app was planned to work but its not a good experience for the demo so I made a toggle for it called DEMO_MODE.
       //First we find all the users that the current user follows.
       const following = await prisma.follower.findMany({
