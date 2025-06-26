@@ -4,6 +4,7 @@ import Image from "next/image";
 import React, { useOptimistic, useState } from "react";
 import { FollowerRequest, User } from "../../../../generated/prisma";
 import { acceptFollowRequest, declineFollowRequest } from "@/lib/actions";
+import Link from "next/link";
 
 // This type is for the follow Requests that include the sender data.
 type FreindRequestsWithSender = FollowerRequest & {
@@ -62,20 +63,22 @@ const FriendRequestList = ({
         //map thru all the requests and display them.
         optimisticRequest.map((request) => (
           <div key={request.id} className="flex items-center justify-between">
-            <div className="flex gap-4 items-center">
-              <Image
-                src={request.sender.avatar || "/No_avatar.png"}
-                alt=""
-                width={40}
-                height={40}
-                className="w-10 h-10 rounded-full"
-              ></Image>
-              <span className="font-semibold">
-                {request.sender.name && request.sender.surname
-                  ? request.sender.name + " " + request.sender.surname
-                  : request.sender.username}
-              </span>
-            </div>
+            <Link href={`/profile/${request.sender.username}`}>
+              <div className="flex gap-4 items-center">
+                <Image
+                  src={request.sender.avatar || "/No_avatar.png"}
+                  alt=""
+                  width={40}
+                  height={40}
+                  className="w-10 h-10 rounded-full"
+                ></Image>
+                <span className="font-semibold">
+                  {request.sender.name && request.sender.surname
+                    ? request.sender.name + " " + request.sender.surname
+                    : request.sender.username}
+                </span>
+              </div>
+            </Link>
             <div className="flex gap-4">
               {/* This action creates a anon function that contains the accept function. The reason we do this is because this is a client component. */}
               <form action={() => accept(request.id, request.senderId)}>
