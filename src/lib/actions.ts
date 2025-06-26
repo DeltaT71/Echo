@@ -201,7 +201,10 @@ export const updateProfile = async (
   });
 
   //Apply the validation schema to the fields
-  const validatedFields = Profile.safeParse({ cover, ...filteredFields });
+  const validatedFields =
+    cover === ""
+      ? Profile.safeParse({ ...filteredFields })
+      : Profile.safeParse({ cover, ...filteredFields });
 
   //Check for any errors during validation and log them
   if (!validatedFields.success) {
