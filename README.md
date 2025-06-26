@@ -129,3 +129,8 @@ npx prisma generate
 ![](/public/readme-assets/Pasted%20image%2020250626183638.png)
 
 ### Screenshots are taken from the Live Demo please visit it!
+
+## Built With Help From
+
+This project was built with the help of tutorials from [Lama Dev](https://www.youtube.com/lamadev).
+Big thanks to them for helping me learn and giving so much to the dev community! Highly recommend their content!
